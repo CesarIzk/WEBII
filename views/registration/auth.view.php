@@ -9,21 +9,33 @@
   </div>
 
   <div class="row g-4">
+
     <!-- LOGIN -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body p-4">
           <h3 class="h5 mb-3"><i class="fas fa-right-to-bracket me-2"></i>Iniciar sesión</h3>
-          <form action="#" method="post" autocomplete="on">
-            <div class="mb-3">
-              <label class="form-label" for="login-email">Correo</label>
-              <input class="form-control" id="login-email" type="email" placeholder="correo@ejemplo.com" required>
+          <form action="/login" method="post">
+            <input type="hidden" name="action" value="login">
+
+            <div class="row g-3">
+              <div class="col-12">
+                <input class="form-control" name="email" type="email" placeholder="Correo electrónico" required>
+              </div>
+              <div class="col-12">
+                <input class="form-control" name="password" type="password" placeholder="Contraseña" required>
+              </div>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for="login-pass">Contraseña</label>
-              <input class="form-control" id="login-pass" type="password" placeholder="••••••••" required>
-            </div>
-            <button class="btn btn-primary w-100 mt-3" type="button">Entrar</button>
+
+            <?php if (isset($errors['login'])): ?>
+              <p class="text-danger mt-2 small"><?= htmlspecialchars($errors['login']) ?></p>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['registered'])): ?>
+              <p class="text-success mt-2 small">Cuenta creada con éxito. Ya podés iniciar sesión.</p>
+            <?php endif; ?>
+
+            <button class="btn btn-outline-primary w-100 mt-3" type="submit">Iniciar sesión</button>
           </form>
         </div>
       </div>
@@ -34,49 +46,50 @@
       <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body p-4">
           <h3 class="h5 mb-3"><i class="fas fa-user-plus me-2"></i>Crear cuenta</h3>
-          <form action="#" method="post" autocomplete="on">
+          <form action="/login" method="post">
+            <input type="hidden" name="action" value="register">
+
             <div class="row g-3">
-              <div class="col-12 col-md-6">
-                <label class="form-label" for="reg-name">Nombre</label>
-                <input class="form-control" id="reg-name" type="text" placeholder="Tu nombre" required>
-              </div>
-              <div class="col-12 col-md-6">
-                <label class="form-label" for="reg-user">Usuario</label>
-                <input class="form-control" id="reg-user" type="text" placeholder="@usuario" required>
+              <div class="col-12">
+                <input class="form-control" name="nombre" placeholder="Nombre completo" required>
               </div>
               <div class="col-12">
-                <label class="form-label" for="reg-email">Correo</label>
-                <input class="form-control" id="reg-email" type="email" placeholder="correo@ejemplo.com" required>
+                <input class="form-control" name="correo" type="email" placeholder="Correo electrónico" required>
               </div>
-              <div class="col-12 col-md-6">
-                <label class="form-label" for="reg-birth">Fecha de nacimiento</label>
-                <input class="form-control" id="reg-birth" type="date" required>
+              <div class="col-md-6">
+                <input class="form-control" name="fecha_nacimiento" type="date" required>
               </div>
-              <div class="col-12 col-md-6">
-                <label class="form-label" for="reg-gender">Género</label>
-                <select class="form-select" id="reg-gender" required>
-                  <option value="" selected disabled>Selecciona…</option>
+              <div class="col-md-6">
+                <select class="form-select" name="genero" required>
+                  <option value="">Género</option>
                   <option value="M">Masculino</option>
                   <option value="F">Femenino</option>
-                  <option value="O">Otro</option>
-                  <option value="N">Prefiero no decir</option>
                 </select>
               </div>
-              <div class="col-12 col-md-6">
-                <label class="form-label" for="reg-pass">Contraseña</label>
-                <input class="form-control" id="reg-pass" type="password" placeholder="••••••••" required>
+              <div class="col-md-6">
+                <input class="form-control" name="password" type="password" placeholder="Contraseña" required>
               </div>
-              <div class="col-12 col-md-6">
-                <label class="form-label" for="reg-pass2">Confirmar</label>
-                <input class="form-control" id="reg-pass2" type="password" placeholder="••••••••" required>
+              <div class="col-md-6">
+                <input class="form-control" name="password_confirm" type="password" placeholder="Confirmar" required>
               </div>
             </div>
-            <button class="btn btn-outline-primary w-100 mt-3" type="button">Registrarme</button>
+
+            <?php if (isset($errors['register'])): ?>
+              <p class="text-danger mt-2 small"><?= htmlspecialchars($errors['register']) ?></p>
+            <?php endif; ?>
+
+            <button class="btn btn-outline-primary w-100 mt-3" type="submit">Registrarme</button>
           </form>
         </div>
       </div>
     </div>
+
   </div>
+  <?php if (isset($_SESSION['user'])): ?>
+<script>
+    console.log('Sesión iniciada:', <?= json_encode($_SESSION['user']) ?>);
+</script>
+<?php endif; ?>
 </main>
 
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>

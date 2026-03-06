@@ -44,3 +44,15 @@ function view($path,$attributes = [])
     extract($attributes);
     require base_path('views/') . $path;
 }
+function login($user) {
+    session_regenerate_id(true);
+    $_SESSION['user'] = $user;
+}
+
+function logout() {
+    $_SESSION = [];
+    session_destroy();
+
+    header('location: /login');
+    exit();
+}

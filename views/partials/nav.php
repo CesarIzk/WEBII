@@ -18,24 +18,21 @@
           <i class="fas fa-plus-circle"></i> <span>Publicar</span>
         </a>
 
-        <?php /* LÓGICA COMENTADA TEMPORALMENTE PARA VISUALIZACIÓN FRONT
         <?php if (!empty($_SESSION['user'])): ?>
-          <span class="btn btn-sm btn-outline-light">
+          <a href="/perfil" class="btn btn-sm btn-outline-light">
             <i class="fas fa-user me-1"></i>
-            <?= htmlspecialchars($_SESSION['user']['nombre'] ?? 'Usuario') ?>
-          </span>
-          <a href="logout.php" class="btn btn-danger btn-sm">
-            <i class="fas fa-sign-out-alt me-1"></i> <span>Salir</span>
+            <?= htmlspecialchars($_SESSION['user']['Nombre'] ?? 'Usuario') ?>
           </a>
+          <form action="/logout" method="post" class="d-inline">
+            <button type="submit" class="btn btn-danger btn-sm">
+              <i class="fas fa-sign-out-alt me-1"></i> <span>Salir</span>
+            </button>
+          </form>
         <?php else: ?>
-        */ ?>
-
           <a href="/auth" class="btn btn-primary btn-sm">
             <i class="fas fa-sign-in-alt me-1"></i> <span>Ingresar</span>
           </a>
-
-        <?php /* <?php endif; ?> 
-        */ ?>
+        <?php endif; ?>
       </div>
     </div>
 </nav>
