@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <title>Panel de Admin - MundialFan</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+  <header class="admin-header">
+    <div class="header-contenido contenedor d-flex align-items-center justify-content-between">
+      <a href="admin/dashboard.html" class="logo d-flex align-items-center gap-2 text-decoration-none text-white">
+        <i class="fas fa-shield-halved fa-lg"></i>
+        <h1 class="m-0 fs-4">MundialFan - Panel Admin</h1>
+      </a>
+    </div>
+  </header>
+
+  <nav class="admin-nav">
+    <div class="nav-wrap d-flex align-items-center justify-content-between">
+      <!-- Botón hamburguesa -->
+      <button class="menu-toggle admin-toggle btn btn-outline-light" aria-label="Menú">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Menú principal -->
+      <ul class="navbar d-flex flex-wrap align-items-center gap-3" id="admin-navbar-menu">
+        <li><a href="admin/dashboard.html"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+        <li><a href="admin/usuarios.html"><i class="fas fa-users-cog"></i> <span>Usuarios</span></a></li>
+        <li><a href="admin/publicaciones.html"><i class="fas fa-file-alt"></i> <span>Publicaciones</span></a></li>
+        <li><a href="admin/reportes.html"><i class="fas fa-chart-line"></i> <span>Reportes</span></a></li>
+        <li><a href="/admin/crear"><i class="fas fa-user-shield"></i> <span>Crear Admin</span></a></li>
+        <li><a href="index.html"><i class="fas fa-globe"></i> <span>Ver Sitio</span></a></li>
+      </ul>
+
+      <!-- Botones de usuario y modo -->
+      <div class="auth-buttons d-flex align-items-center gap-3">
+        <!-- Modo oscuro -->
+        <button id="toggle-mode-header" class="toggle-btn btn btn-outline-light" aria-label="Cambiar modo">
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <!-- Perfil -->
+        
+          <div class="dropdown">
+            <button 
+              class="btn btn-light btn-sm d-flex align-items-center gap-2"
+              id="adminDropdown" 
+              data-bs-toggle="dropdown" 
+              aria-expanded="false"
+            >
+              <div class="user-avatar rounded-circle text-white d-flex align-items-center justify-content-center" 
+                   style="width:32px; height:32px; background-color:#c0392b;">
+                
+              </div>
+              <span class="d-none d-md-inline text-dark"></span>
+              <i class="fas fa-chevron-down small text-muted"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="adminDropdown">
+              <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i> Mi Perfil</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="/logout"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a></li>
+            </ul>
+          </div>
+        
+      </div>
+    </div>
+  </nav>
+<div class="contenedor mt-5">
+    <a href="/Post" class="btn btn-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Volver a Publicaciones
+    </a>
+
+    <div class="card shadow">
+        <div class="card-header d-flex align-items-center gap-3">
+            
+                <img src="" 
+                     alt="Avatar" 
+                     class="rounded-circle" 
+                     style="width: 50px; height: 50px; object-fit: cover;">
+            
+                <div class="user-avatar" style="width: 50px; height: 50px; font-size: 1.5rem;">
+                    
+                </div>
+            
+            
+            <div>
+                <h5 class="mb-0"></h5>
+                <small class="text-muted">@</small>
+                <br>
+                <small class="text-muted">
+                    <i class="fas fa-clock"></i> 
+                    
+                </small>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <p class="card-text" style="font-size: 1.1rem; white-space: pre-wrap;">
+                
+            </p>
+
+            
+                <div class="mt-3">
+                    <img src="/" 
+                         alt="Imagen de publicación" 
+                         class="img-fluid rounded"
+                         style="max-height: 600px; width: auto;">
+                </div>
+            
+                <div class="mt-3">
+                    <video controls class="w-100 rounded" style="max-height: 600px;">
+                        <source src="/" type="video/mp4">
+                        Tu navegador no soporta videos.
+                    </video>
+                </div>
+            
+
+            <div class="mt-4 d-flex gap-3">
+                <button class="btn btn-outline-primary" id="btn-like" data-post-id="">
+                    <i class="fas fa-heart"></i> 
+                    <span id="like-count"></span> Me gusta
+                </button>
+                
+                <button class="btn btn-outline-secondary">
+                    <i class="fas fa-share"></i> Compartir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  </main> <footer class="admin-footer mt-5 text-center text-muted">
+    <p>&copy;  MundialFan - Panel de Administración</p>
+  </footer>
+
+  
+  
+  
+  
+  
+  
+</body>
+</html>
