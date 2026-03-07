@@ -31,31 +31,31 @@ require_once 'partials/nav.php';
     <h2 class="titulo-seccion">Todo sobre el Mundial</h2>
 
     <div class="caracteristicas-grid">
-      <a class="caracteristica caracteristica--link" href="campeonatos.php">
+      <a class="caracteristica caracteristica--link" href="/campeonatos">
         <i class="fas fa-trophy"></i>
         <h3>Campeonatos</h3>
         <p>Explora la historia, campeones y ediciones del Mundial.</p>
       </a>
 
-      <a class="caracteristica caracteristica--link" href="stats.php">
+      <a class="caracteristica caracteristica--link" href="/stats">
         <i class="fas fa-chart-bar"></i>
         <h3>Estadísticas</h3>
         <p>Tablas, grupos 2026 y estadísticas generales del torneo.</p>
       </a>
 
-      <a class="caracteristica caracteristica--link" href="chat.php">
+      <a class="caracteristica caracteristica--link" href="/chat">
         <i class="fas fa-comments"></i>
         <h3>Chat</h3>
         <p>Habla con amigos y grupos.</p>
       </a>
 
-      <a class="caracteristica caracteristica--link" href="equipo.php">
+      <a class="caracteristica caracteristica--link" href="/equipos">
         <i class="fas fa-users"></i>
         <h3>Equipos</h3>
         <p>Consulta selecciones y fichas de equipos.</p>
       </a>
 
-      <a class="caracteristica caracteristica--link" href="publicaciones.php">
+      <a class="caracteristica caracteristica--link" href="/publicaciones">
         <i class="fas fa-newspaper"></i>
         <h3>Publicaciones</h3>
         <p>Posts, noticias y contenido de la comunidad.</p>
