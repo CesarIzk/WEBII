@@ -1,66 +1,92 @@
-<?php $pageTitle = 'Detalle de Publicación - Panel Admin MundialFan'; ?>
+<?php $pageTitle = 'Nuevo País - Panel Admin MundialFan'; ?>
 <?php require_once __DIR__ . '/partials/head.php'; ?>
 <?php require_once __DIR__ . '/partials/header.php'; ?>
 <?php require_once __DIR__ . '/partials/nav.php'; ?>
 
-<div class="contenedor mt-5">
-  <a href="/admin/publicaciones" class="btn btn-secondary mb-3">
-    <i class="fas fa-arrow-left"></i> Volver a Publicaciones
-  </a>
-
-  <div class="card shadow">
-    <div class="card-header d-flex align-items-center gap-3">
-      <?php if (!empty($post['autor_avatar'])): ?>
-        <img src="/<?= htmlspecialchars($post['autor_avatar']) ?>"
-             alt="Avatar" class="rounded-circle"
-             style="width:50px; height:50px; object-fit:cover;">
-      <?php else: ?>
-        <div class="user-avatar rounded-circle text-white d-flex align-items-center justify-content-center"
-             style="width:50px; height:50px; font-size:1.5rem; background:#c0392b;">
-          <?= strtoupper(substr($post['autor_nombre'] ?? '?', 0, 1)) ?>
-        </div>
-      <?php endif; ?>
-
-      <div>
-        <h5 class="mb-0"><?= htmlspecialchars($post['autor_nombre'] ?? '') ?></h5>
-        <small class="text-muted">@<?= htmlspecialchars($post['autor_username'] ?? '') ?></small><br>
-        <small class="text-muted"><i class="fas fa-clock"></i> <?= htmlspecialchars($post['fecha'] ?? '') ?></small>
-      </div>
-    </div>
-
-    <div class="card-body">
-      <p class="card-text" style="font-size:1.1rem; white-space:pre-wrap;">
-        <?= htmlspecialchars($post['texto'] ?? '') ?>
-      </p>
-
-      <?php if (!empty($post['imagen'])): ?>
-        <div class="mt-3">
-          <img src="/<?= htmlspecialchars($post['imagen']) ?>"
-               alt="Imagen de publicación" class="img-fluid rounded"
-               style="max-height:600px; width:auto;">
-        </div>
-      <?php endif; ?>
-
-      <?php if (!empty($post['video'])): ?>
-        <div class="mt-3">
-          <video controls class="w-100 rounded" style="max-height:600px;">
-            <source src="/<?= htmlspecialchars($post['video']) ?>" type="video/mp4">
-            Tu navegador no soporta videos.
-          </video>
-        </div>
-      <?php endif; ?>
-
-      <div class="mt-4 d-flex gap-3">
-        <button class="btn btn-outline-primary" id="btn-like" data-post-id="<?= $post['id'] ?? '' ?>">
-          <i class="fas fa-heart"></i>
-          <span id="like-count"><?= $post['likes'] ?? 0 ?></span> Me gusta
-        </button>
-        <button class="btn btn-outline-secondary">
-          <i class="fas fa-share"></i> Compartir
-        </button>
-      </div>
-    </div>
+<div class="container mt-4">
+  <div class="d-flex align-items-center gap-3 mb-3">
+    <a href="/admin/paises" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+    <h2 class="m-0"><i class="fas fa-plus-circle"></i> Agregar Nuevo País</h2>
   </div>
+  <p class="text-muted">Completa los campos para registrar un nuevo país en la base de datos.</p>
+
+  <?php if (!empty($error)): ?>
+    <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+  <?php endif; ?>
+
+  <form method="POST" action="/admin/paises">
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <label class="form-label">Código (slug)</label>
+        <input type="text" name="codigo" class="form-control"
+               placeholder="ej. argentina, brasil"
+               value="<?= htmlspecialchars($_POST['codigo'] ?? '') ?>" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Nombre</label>
+        <input type="text" name="nombre" class="form-control"
+               placeholder="Nombre del país"
+               value="<?= htmlspecialchars($_POST['nombre'] ?? '') ?>" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Continente</label>
+        <input type="text" name="continente" class="form-control"
+               placeholder="Ej. América del Sur"
+               value="<?= htmlspecialchars($_POST['continente'] ?? '') ?>">
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <label class="form-label">Títulos</label>
+        <input type="number" name="titulos" class="form-control"
+               value="<?= htmlspecialchars($_POST['titulos'] ?? '0') ?>">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Participaciones</label>
+        <input type="number" name="participaciones" class="form-control"
+               value="<?= htmlspecialchars($_POST['participaciones'] ?? '0') ?>">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Entrenador</label>
+        <input type="text" name="entrenador" class="form-control"
+               placeholder="Nombre del entrenador actual"
+               value="<?= htmlspecialchars($_POST['entrenador'] ?? '') ?>">
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label">Mejor Jugador</label>
+      <input type="text" name="mejorJugador" class="form-control"
+             placeholder="Ej. Lionel Messi"
+             value="<?= htmlspecialchars($_POST['mejorJugador'] ?? '') ?>">
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label">Bandera (URL)</label>
+      <input type="text" name="bandera" class="form-control"
+             placeholder="https://flagcdn.com/w320/ar.png"
+             value="<?= htmlspecialchars($_POST['bandera'] ?? '') ?>">
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label">Descripción</label>
+      <textarea name="descripcion" rows="3" class="form-control"
+                placeholder="Breve descripción del país o su selección."><?= htmlspecialchars($_POST['descripcion'] ?? '') ?></textarea>
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label">Historia</label>
+      <textarea name="historia" rows="5" class="form-control"
+                placeholder="Historia deportiva del país."><?= htmlspecialchars($_POST['historia'] ?? '') ?></textarea>
+    </div>
+
+    <button class="btn btn-success mt-4">
+      <i class="fas fa-save"></i> Guardar País
+    </button>
+  </form>
 </div>
 
 <?php require_once __DIR__ . '/partials/footer.php'; ?>

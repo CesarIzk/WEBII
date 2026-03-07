@@ -47,9 +47,17 @@
                   <td><?= $p['titulos'] ?? 0 ?></td>
                   <td><?= $p['participaciones'] ?? 0 ?></td>
                   <td>
-                    <a href="/admin/paises/<?= $p['codigo'] ?>/editar" class="btn btn-sm btn-warning">
+                    <a href="/admin/paises/edit?id=<?= $p['id'] ?>" class="btn btn-sm btn-warning">
                       <i class="fas fa-edit"></i> Editar
                     </a>
+                    <form action="/admin/paises" method="POST" class="d-inline"
+                          onsubmit="return confirm('¿Eliminar este país?')">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                      <button type="submit" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </form>
                   </td>
                 </tr>
               <?php endforeach; ?>

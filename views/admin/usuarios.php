@@ -55,17 +55,19 @@
                 </td>
                 <td><?= htmlspecialchars($u['fecha_registro'] ?? '') ?></td>
                 <td>
-                  <?php if ($u['id'] === ($_SESSION['user']['id'] ?? null)): ?>
+                  <?php if ($u['id'] === ($_SESSION['user']['idUsuario'] ?? null)): ?>
                     <span class="text-muted">Eres tú</span>
                   <?php elseif ($u['activo']): ?>
-                    <form method="POST" action="/admin/usuarios/<?= $u['id'] ?>/desactivar" style="display:inline;">
+                    <form method="POST" action="/admin/usuarios/desactivar" style="display:inline;">
+                      <input type="hidden" name="id" value="<?= $u['id'] ?>">
                       <button type="submit" class="btn btn-sm btn-warning"
                               onclick="return confirm('¿Desactivar este usuario?')">
                         <i class="fas fa-ban"></i> Desactivar
                       </button>
                     </form>
                   <?php else: ?>
-                    <form method="POST" action="/admin/usuarios/<?= $u['id'] ?>/activar" style="display:inline;">
+                    <form method="POST" action="/admin/usuarios/activar" style="display:inline;">
+                      <input type="hidden" name="id" value="<?= $u['id'] ?>">
                       <button type="submit" class="btn btn-sm btn-success">
                         <i class="fas fa-check"></i> Activar
                       </button>

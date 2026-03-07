@@ -67,7 +67,7 @@ $router->post('/admin/publicaciones/mostrar', 'controllers/admin/publicaciones/m
 $router->get('/admin/publicaciones/detalle', 'controllers/admin/publicaciones/show.php')->only('auth');
 
 // Reportes
-$router->get('/admin/reportes', 'controllers/admin/reportes/index.php')->only('auth');
+$router->get('/admin/reportes', 'controllers/admin/reportes.php')->only('auth');
 
 // Crear Admin
 $router->get('/admin/crear-admin', 'controllers/admin/usuarios/create.php')->only('auth');

@@ -15,7 +15,9 @@
     <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
   <?php endif; ?>
 
-  <form method="POST" action="/admin/paises/<?= htmlspecialchars($pais['codigo'] ?? '') ?>/editar">
+  <form method="POST" action="/admin/paises">
+    <input type="hidden" name="_method" value="PATCH">
+    <input type="hidden" name="id" value="<?= htmlspecialchars($pais['idPais'] ?? '') ?>">
     <div class="row mt-3">
       <div class="col-md-6">
         <label class="form-label">Nombre</label>
