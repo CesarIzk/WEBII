@@ -103,7 +103,7 @@ class User {
         $termino = '%' . trim($q) . '%';
 
         return $this->db->query(
-            "SELECT idUsuario AS id, Nombre AS nombre, email, avatar
+            "SELECT idUsuario AS id, Nombre AS nombre, email, fotoPerfil
              FROM users
              WHERE (Nombre LIKE :q OR email LIKE :q2)
                AND idUsuario != :yo
