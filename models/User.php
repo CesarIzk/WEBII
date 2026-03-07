@@ -58,4 +58,49 @@ class User {
             'id' => $id
         ])->find();
     }
+
+    /**
+     * Publicaciones de un usuario para su perfil
+     */
+    public function publicaciones($usuario_id) {
+        return $this->db->query(
+            "SELECT
+                p.idPublicacion AS id,
+                p.texto,
+                p.tipoContenido,
+                p.rutaMulti,
+                p.estado,
+                p.postdate      AS fecha,
+                p.likes,
+                p.comentarios
+             FROM publicaciones p
+             WHERE p.idUsuario = :usuario_id
+             ORDER BY p.postdate DESC",
+            ['usuario_id' => $usuario_id]
+        )->get();
+    }
+
+    /**
+     * Buscar usuarios por nombre o email (buscador de amigos)
+     */
+    public function buscar($q, $usuario_id_actual) {
+        if (empty(trim($q))) {
+            return [];
+        }
+
+        $termino = '%' . trim($q) . '%';
+
+        return $this->db->query(
+            "SELECT idUsuario AS id, Nombre AS nombre, email, avatar
+             FROM users
+             WHERE (Nombre LIKE :q OR email LIKE :q2)
+               AND idUsuario != :yo
+             LIMIT 20",
+            [
+                'yo' => $usuario_id_actual,
+                'q'  => $termino,
+                'q2' => $termino,
+            ]
+        )->get();
+    }
 }

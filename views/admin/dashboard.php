@@ -82,6 +82,21 @@
         </div>
       </div>
     </div>
+
+    <div class="col-md-3">
+      <div class="card text-white" style="background-color:#e83e8c;">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-subtitle mb-2">Total Likes</h6>
+              <h2 class="card-title mb-0"><?= $stats['total_likes'] ?? 0 ?></h2>
+            </div>
+            <i class="fas fa-heart fa-3x opacity-50"></i>
+          </div>
+          <small>En todas las publicaciones</small>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Gráfico + Top usuarios -->
@@ -116,6 +131,7 @@
                     <small class="text-muted"><?= $u['publicaciones'] ?> publicaciones</small>
                   </div>
                 </div>
+                <small class="text-muted">~<?= number_format($u['promedioInteraccion'], 1) ?> interac.</small>
               </div>
             <?php endforeach; ?>
           </div>
@@ -153,5 +169,48 @@
     </div>
   </div>
 </div>
+
+<!-- Chart.js desde CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('activityChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: <?= $chartLabels ?? '[]' ?>,
+      datasets: [
+        {
+          label: 'Publicaciones',
+          data: <?= $chartPublicaciones ?? '[]' ?>,
+          borderColor: '#0d6efd',
+          backgroundColor: 'rgba(13,110,253,0.1)',
+          tension: 0.4,
+          fill: true,
+        },
+        {
+          label: 'Likes',
+          data: <?= $chartLikes ?? '[]' ?>,
+          borderColor: '#e83e8c',
+          backgroundColor: 'rgba(232,62,140,0.1)',
+          tension: 0.4,
+          fill: true,
+        },
+        {
+          label: 'Nuevos usuarios',
+          data: <?= $chartUsuarios ?? '[]' ?>,
+          borderColor: '#198754',
+          backgroundColor: 'rgba(25,135,84,0.1)',
+          tension: 0.4,
+          fill: true,
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'top' } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+</script>
 
 <?php require_once __DIR__ . '/partials/footer.php'; ?>

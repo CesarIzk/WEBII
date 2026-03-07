@@ -6,8 +6,9 @@ class Authenticated
 {
     public function handle()
     {
-        if (! $_SESSION['user'] ?? false) {
-            header('location: /');
+        // Bug fix: paréntesis necesarios para que ?? actúe como fallback correcto
+        if (! ($_SESSION['user'] ?? false)) {
+            header('location: /login');
             exit();
         }
     }

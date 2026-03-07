@@ -12,7 +12,7 @@ $router->get('/contact', 'controllers/contact.php');
 // ============================================================
 $router->get('/login', 'controllers/registration/auth.php')->only('guest');
 $router->post('/login', 'controllers/registration/auth.php')->only('guest');
-$router->delete('/logout', 'controllers/registration/auth.php')->only('auth');
+$router->post('/logout', 'controllers/registration/logout.php')->only('auth');
 $router->get('/auth', 'controllers/registration/auth.php');
 // Perfil y configuración
 $router->get('/perfil', 'controllers/registration/perfil.php')->only('auth');

@@ -19,18 +19,27 @@
         </a>
 
         <?php if (!empty($_SESSION['user'])): ?>
-          <a href="/perfil" class="btn btn-sm btn-outline-light">
-            <i class="fas fa-user me-1"></i>
-            <?= htmlspecialchars($_SESSION['user']['Nombre'] ?? 'Usuario') ?>
+          <a href="/perfil" class="user-profile">
+            <div class="user-avatar">
+              <?= strtoupper(substr(htmlspecialchars($_SESSION['user']['Nombre'] ?? 'U'), 0, 1)) ?>
+            </div>
+            <span><?= htmlspecialchars($_SESSION['user']['Nombre'] ?? 'Usuario') ?></span>
           </a>
+
+          <?php if (($_SESSION['user']['rol'] ?? '') === 'admin'): ?>
+            <a href="/admin" class="btn btn-warning btn-sm" title="Panel de Administración">
+              <i class="fas fa-shield-halved"></i>
+            </a>
+          <?php endif; ?>
+
           <form action="/logout" method="post" class="d-inline">
             <button type="submit" class="btn btn-danger btn-sm">
-              <i class="fas fa-sign-out-alt me-1"></i> <span>Salir</span>
+              <i class="fas fa-sign-out-alt"></i>
             </button>
           </form>
         <?php else: ?>
-          <a href="/auth" class="btn btn-primary btn-sm">
-            <i class="fas fa-sign-in-alt me-1"></i> <span>Ingresar</span>
+          <a href="/auth" class="btn-login">
+            <i class="fas fa-sign-in-alt"></i> <span>Ingresar</span>
           </a>
         <?php endif; ?>
       </div>

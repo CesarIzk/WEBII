@@ -1,7 +1,19 @@
 <?php
-$model = new users($db);
-$datosUsuario = $model->find($_SESSION['user_id']); // Ejemplo de uso
+
+use Core\App;
+use Models\User;
+
+$db        = App::resolve('Core\Database');
+$userModel = new User($db);
+
+$usuarioActual = $_SESSION['user']['idUsuario'] ?? null;
+
+$perfil        = $userModel->find($usuarioActual);
+$publicaciones = $userModel->publicaciones($usuarioActual);
+$usuarios      = $userModel->buscar($_GET['q'] ?? '', $usuarioActual);
 
 view('registration/perfil.view.php', [
-    'usuario' => $datosUsuario
+    'perfil'        => $perfil,
+    'publicaciones' => $publicaciones,
+    'usuarios'      => $usuarios,
 ]);
