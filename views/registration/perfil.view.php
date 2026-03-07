@@ -43,7 +43,7 @@
                     <img src="/<?= htmlspecialchars($u['avatar'] ?? 'imagenes/default-profile.jpg') ?>"
                          alt="Avatar"
                          style="width:36px;height:36px;border-radius:999px;object-fit:cover;">
-                    <strong>@<?= htmlspecialchars($u['username']) ?></strong>
+                    <strong>@<?= htmlspecialchars($u['username'] ?? $u['email']) ?></strong>
                   </td>
                   <td><?= htmlspecialchars($u['nombre']) ?></td>
                   <td>
@@ -179,7 +179,7 @@
                      alt="Avatar"
                      style="width:36px;height:36px;border-radius:999px;object-fit:cover;">
                 <div>
-                  <strong><?= htmlspecialchars($perfil['nombre'] ?? '') ?></strong>
+                  <strong><?= htmlspecialchars($perfil['Nombre'] ?? '') ?></strong>
                   <div style="font-size:12px; opacity:.65;">
                     <?= htmlspecialchars($post['fecha'] ?? '') ?>
                   </div>
@@ -188,8 +188,8 @@
 
               <p class="mb-2"><?= htmlspecialchars($post['texto']) ?></p>
 
-              <?php if (!empty($post['imagen'])): ?>
-                <img src="/<?= htmlspecialchars($post['imagen']) ?>"
+              <?php if (!empty($post['rutaMulti'])): ?>
+                <img src="/<?= htmlspecialchars($post['rutaMulti']) ?>"
                      alt="Imagen del post"
                      class="img-fluid rounded-4 border"
                      style="max-height:320px; object-fit:cover; width:100%;">

@@ -57,19 +57,22 @@
                   </td>
                   <td class="text-end">
                     <?php if ($post['visible']): ?>
-                      <form action="/admin/publicaciones/<?= $post['id'] ?>/ocultar" method="POST" class="d-inline">
+                      <form action="/admin/publicaciones/ocultar" method="POST" class="d-inline">
+                        <input type="hidden" name="id" value="<?= $post['id'] ?>">
                         <button type="submit" class="btn btn-warning btn-sm" title="Ocultar publicación">
                           <i class="fas fa-eye-slash"></i>
                         </button>
                       </form>
                     <?php else: ?>
-                      <form action="/admin/publicaciones/<?= $post['id'] ?>/mostrar" method="POST" class="d-inline">
+                      <form action="/admin/publicaciones/mostrar" method="POST" class="d-inline">
+                        <input type="hidden" name="id" value="<?= $post['id'] ?>">
                         <button type="submit" class="btn btn-success btn-sm" title="Mostrar publicación">
                           <i class="fas fa-eye"></i>
                         </button>
                       </form>
                     <?php endif; ?>
-                    <a href="/admin/publicaciones/<?= $post['id'] ?>" class="btn btn-info btn-sm" title="Ver detalle">
+                    <a href="/admin/publicaciones/detalle?id=<?= $post['id'] ?>"
+                       class="btn btn-info btn-sm" title="Ver detalle">
                       <i class="fas fa-external-link-alt"></i>
                     </a>
                   </td>

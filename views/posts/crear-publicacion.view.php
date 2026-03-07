@@ -9,7 +9,7 @@
     <a href="/publicaciones" class="btn-volver">← Volver a publicaciones</a>
   </div>
 
-  <form id="formPublicacion" enctype="multipart/form-data" class="form-publicacion">
+  <form id="formPublicacion" method="POST" action="/publicaciones" enctype="multipart/form-data" class="form-publicacion">
 
     <!-- Texto -->
     <div class="form-group">
@@ -18,8 +18,11 @@
         id="texto" name="texto" rows="5" maxlength="500"
         placeholder="Comparte tus opiniones sobre el Mundial, tu equipo favorito, momentos históricos..."
         required
-      ></textarea>
+      ><?= htmlspecialchars($_POST['texto'] ?? '') ?></textarea>
       <small class="contador-caracteres">0/500 caracteres</small>
+      <?php if (!empty($errors['texto'])): ?>
+        <p class="text-danger mt-1" style="font-size:13px;"><?= $errors['texto'] ?></p>
+      <?php endif; ?>
     </div>
 
     <!-- Categoría -->
@@ -38,21 +41,21 @@
       <label><i>🎨</i> Tipo de contenido:</label>
       <div class="tipo-contenido">
         <label class="radio-card">
-          <input type="radio" name="tipo" value="texto" checked>
+          <input type="radio" name="tipoContenido" value="texto" checked>
           <span class="radio-content">
             <span class="radio-icon">📝</span>
             <span class="radio-text">Solo texto</span>
           </span>
         </label>
         <label class="radio-card">
-          <input type="radio" name="tipo" value="imagen">
+          <input type="radio" name="tipoContenido" value="imagen">
           <span class="radio-content">
             <span class="radio-icon">🖼️</span>
             <span class="radio-text">Con imagen</span>
           </span>
         </label>
         <label class="radio-card">
-          <input type="radio" name="tipo" value="video">
+          <input type="radio" name="tipoContenido" value="video">
           <span class="radio-content">
             <span class="radio-icon">🎥</span>
             <span class="radio-text">Con video</span>
@@ -65,7 +68,7 @@
     <div class="form-group archivo-upload" id="imagenUpload" style="display:none;">
       <label for="imagen"><i>🖼️</i> Subir Imagen</label>
       <div class="upload-area">
-        <input type="file" id="imagen" name="imagen" accept="image/jpeg,image/png,image/gif,image/webp">
+        <input type="file" id="imagen" name="archivo" accept="image/jpeg,image/png,image/gif,image/webp">
         <div class="upload-placeholder">
           <span class="upload-icon">📸</span>
           <p>Arrastra una imagen aquí o haz clic para seleccionar</p>
@@ -73,13 +76,16 @@
         </div>
       </div>
       <div class="preview" id="imagenPreview"></div>
+      <?php if (!empty($errors['archivo'])): ?>
+        <p class="text-danger mt-1" style="font-size:13px;"><?= $errors['archivo'] ?></p>
+      <?php endif; ?>
     </div>
 
     <!-- Upload video -->
     <div class="form-group archivo-upload" id="videoUpload" style="display:none;">
       <label for="video"><i>🎥</i> Subir Video</label>
       <div class="upload-area">
-        <input type="file" id="video" name="video" accept="video/mp4,video/quicktime,video/x-msvideo">
+        <input type="file" id="video" name="archivo" accept="video/mp4,video/quicktime,video/x-msvideo">
         <div class="upload-placeholder">
           <span class="upload-icon">🎬</span>
           <p>Arrastra un video aquí o haz clic para seleccionar</p>
