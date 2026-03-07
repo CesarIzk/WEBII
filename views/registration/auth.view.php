@@ -15,7 +15,7 @@
       <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body p-4">
           <h3 class="h5 mb-3"><i class="fas fa-right-to-bracket me-2"></i>Iniciar sesión</h3>
-          <form action="/login" method="post">
+          <form action="/auth" method="post">
             <input type="hidden" name="action" value="login">
 
             <div class="row g-3">
@@ -32,7 +32,7 @@
             <?php endif; ?>
 
             <?php if (isset($_GET['registered'])): ?>
-              <p class="text-success mt-2 small">Cuenta creada con éxito. Ya podés iniciar sesión.</p>
+              <p class="text-success mt-2 small">✅ Cuenta creada con éxito. Ya podés iniciar sesión.</p>
             <?php endif; ?>
 
             <button class="btn btn-outline-primary w-100 mt-3" type="submit">Iniciar sesión</button>
@@ -46,12 +46,15 @@
       <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body p-4">
           <h3 class="h5 mb-3"><i class="fas fa-user-plus me-2"></i>Crear cuenta</h3>
-          <form action="/login" method="post">
+          <form action="/auth" method="post">
             <input type="hidden" name="action" value="register">
 
             <div class="row g-3">
               <div class="col-12">
                 <input class="form-control" name="nombre" placeholder="Nombre completo" required>
+              </div>
+              <div class="col-12">
+                <input class="form-control" name="username" placeholder="Nombre de usuario" required>
               </div>
               <div class="col-12">
                 <input class="form-control" name="correo" type="email" placeholder="Correo electrónico" required>
@@ -65,6 +68,12 @@
                   <option value="M">Masculino</option>
                   <option value="F">Femenino</option>
                 </select>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" name="ciudad" placeholder="Ciudad">
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" name="pais" placeholder="País">
               </div>
               <div class="col-md-6">
                 <input class="form-control" name="password" type="password" placeholder="Contraseña" required>

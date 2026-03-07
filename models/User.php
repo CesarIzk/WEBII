@@ -32,18 +32,30 @@ class User {
     }
 
     /**
+     * Busca un usuario por username
+     */
+    public function findByUsername($username) {
+        return $this->db->query("SELECT * FROM users WHERE username = :username", [
+            'username' => $username
+        ])->find();
+    }
+
+    /**
      * Crear un nuevo usuario (Registro)
      */
     public function create($attributes) {
         $this->db->query(
-            "INSERT INTO users (Nombre, email, contrasena, fechaNacimiento, genero) 
-             VALUES (:nombre, :email, :contrasena, :fecha, :genero)",
+            "INSERT INTO users (Nombre, username, email, contrasena, fechaNacimiento, genero, ciudad, pais) 
+             VALUES (:nombre, :username, :email, :contrasena, :fecha, :genero, :ciudad, :pais)",
             [
-                'nombre'    => $attributes['nombre'],
-                'email'     => $attributes['correo'],
+                'nombre'     => $attributes['nombre'],
+                'username'   => $attributes['username'],
+                'email'      => $attributes['correo'],
                 'contrasena' => $attributes['password'],
-                'fecha'     => $attributes['fecha_nacimiento'],
-                'genero'    => $attributes['genero'],
+                'fecha'      => $attributes['fecha_nacimiento'],
+                'genero'     => $attributes['genero'],
+                'ciudad'     => $attributes['ciudad'] ?: null,
+                'pais'       => $attributes['pais']   ?: null,
             ]
         );
 

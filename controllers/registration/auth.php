@@ -34,30 +34,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ─── REGISTRO ────────────────────────────────────────────
     } elseif ($action === 'register') {
         $nombre   = trim($_POST['nombre'] ?? '');
+        $username = trim($_POST['username'] ?? '');
         $correo   = trim($_POST['correo'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirm  = $_POST['password_confirm'] ?? '';
         $fecha    = $_POST['fecha_nacimiento'] ?? '';
         $genero   = $_POST['genero'] ?? '';
+        $ciudad   = trim($_POST['ciudad'] ?? '');
+        $pais     = trim($_POST['pais'] ?? '');
 
-        if (empty($nombre) || empty($correo) || empty($password)) {
-            $errors['register'] = 'Por favor completa todos los campos.';
+        if (empty($nombre) || empty($username) || empty($correo) || empty($password)) {
+            $errors['register'] = 'Por favor completa todos los campos obligatorios.';
         } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
             $errors['register'] = 'El correo no tiene un formato válido.';
         } elseif ($password !== $confirm) {
             $errors['register'] = 'Las contraseñas no coinciden.';
         } elseif ($userModel->findByEmail($correo)) {
             $errors['register'] = 'Ya existe una cuenta con ese correo.';
+        } elseif ($userModel->findByUsername($username)) {
+            $errors['register'] = 'Ese nombre de usuario ya está en uso.';
         } else {
             $userModel->create([
                 'nombre'           => $nombre,
+                'username'         => $username,
                 'correo'           => $correo,
                 'password'         => $password,
                 'fecha_nacimiento' => $fecha,
                 'genero'           => $genero,
+                'ciudad'           => $ciudad,
+                'pais'             => $pais,
             ]);
 
-            header('Location: /login?registered=true');
+            header('Location: /auth?registered=true');
             exit();
         }
     }
