@@ -154,6 +154,29 @@ CREATE TABLE `featured_players` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `friendships`
+--
+
+DROP TABLE IF EXISTS `friendships`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `friendships` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL COMMENT 'User who sent the request',
+  `friend_id` int NOT NULL COMMENT 'User who received the request',
+  `status` enum('pending','accepted','rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_friendship` (`user_id`,`friend_id`),
+  KEY `idx_user` (`user_id`),
+  KEY `idx_friend` (`friend_id`),
+  CONSTRAINT `fk_friendships_friend` FOREIGN KEY (`friend_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_friendships_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `likes`
 --
 
@@ -294,6 +317,25 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `vw_friends_list`
+--
+
+DROP TABLE IF EXISTS `vw_friends_list`;
+/*!50001 DROP VIEW IF EXISTS `vw_friends_list`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vw_friends_list` AS SELECT 
+ 1 AS `friendship_id`,
+ 1 AS `user_id`,
+ 1 AS `friend_id`,
+ 1 AS `friend_name`,
+ 1 AS `friend_username`,
+ 1 AS `friend_avatar`,
+ 1 AS `status`,
+ 1 AS `requested_at`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `vw_general_stats`
 --
 
@@ -429,6 +471,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `vw_friends_list`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vw_friends_list`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vw_friends_list` AS select `f`.`id` AS `friendship_id`,`f`.`user_id` AS `user_id`,`f`.`friend_id` AS `friend_id`,`u`.`name` AS `friend_name`,`u`.`username` AS `friend_username`,`u`.`profile_picture` AS `friend_avatar`,`f`.`status` AS `status`,`f`.`created_at` AS `requested_at` from (`friendships` `f` join `users` `u` on((`f`.`friend_id` = `u`.`id`))) union select `f`.`id` AS `friendship_id`,`f`.`friend_id` AS `user_id`,`f`.`user_id` AS `friend_id`,`u`.`name` AS `friend_name`,`u`.`username` AS `friend_username`,`u`.`profile_picture` AS `friend_avatar`,`f`.`status` AS `status`,`f`.`created_at` AS `requested_at` from (`friendships` `f` join `users` `u` on((`f`.`user_id` = `u`.`id`))) where (`f`.`status` = 'accepted') */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `vw_general_stats`
 --
 
@@ -527,4 +587,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-07 19:40:10
+-- Dump completed on 2026-04-08 15:13:37
