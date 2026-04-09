@@ -173,7 +173,7 @@ CREATE TABLE `friendships` (
   KEY `idx_friend` (`friend_id`),
   CONSTRAINT `fk_friendships_friend` FOREIGN KEY (`friend_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_friendships_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,6 +195,31 @@ CREATE TABLE `likes` (
   CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `messages` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sender_id` int NOT NULL,
+  `receiver_id` int NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `media_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `media_type` enum('image','video','audio','document') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('sent','delivered','read') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'sent',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_sender` (`sender_id`),
+  KEY `idx_receiver` (`receiver_id`),
+  CONSTRAINT `fk_msg_receiver` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_msg_sender` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +293,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   KEY `idx_email` (`email`),
   KEY `idx_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -299,6 +324,43 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `username`,
  1 AS `totalPublicaciones`,
  1 AS `promedioInteraccion`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vw_chat_sidebar`
+--
+
+DROP TABLE IF EXISTS `vw_chat_sidebar`;
+/*!50001 DROP VIEW IF EXISTS `vw_chat_sidebar`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vw_chat_sidebar` AS SELECT 
+ 1 AS `owner_id`,
+ 1 AS `friend_id`,
+ 1 AS `friend_name`,
+ 1 AS `friend_username`,
+ 1 AS `friend_avatar`,
+ 1 AS `last_message_id`,
+ 1 AS `last_message_content`,
+ 1 AS `last_message_media`,
+ 1 AS `last_message_status`,
+ 1 AS `last_message_date`,
+ 1 AS `last_message_sender_id`,
+ 1 AS `unread_count`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vw_conversation_last_message`
+--
+
+DROP TABLE IF EXISTS `vw_conversation_last_message`;
+/*!50001 DROP VIEW IF EXISTS `vw_conversation_last_message`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vw_conversation_last_message` AS SELECT 
+ 1 AS `user1_id`,
+ 1 AS `user2_id`,
+ 1 AS `last_message_id`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -453,6 +515,42 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `vw_chat_sidebar`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vw_chat_sidebar`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vw_chat_sidebar` AS select `u`.`id` AS `owner_id`,`f`.`id` AS `friend_id`,`f`.`name` AS `friend_name`,`f`.`username` AS `friend_username`,`f`.`profile_picture` AS `friend_avatar`,`m`.`id` AS `last_message_id`,`m`.`content` AS `last_message_content`,`m`.`media_type` AS `last_message_media`,`m`.`status` AS `last_message_status`,`m`.`created_at` AS `last_message_date`,`m`.`sender_id` AS `last_message_sender_id`,(select count(0) from `messages` where ((`messages`.`sender_id` = `f`.`id`) and (`messages`.`receiver_id` = `u`.`id`) and (`messages`.`status` <> 'read'))) AS `unread_count` from ((((`friendships` `fr` join `users` `u` on(((`u`.`id` = `fr`.`user_id`) or (`u`.`id` = `fr`.`friend_id`)))) join `users` `f` on((((`f`.`id` = `fr`.`friend_id`) and (`u`.`id` = `fr`.`user_id`)) or ((`f`.`id` = `fr`.`user_id`) and (`u`.`id` = `fr`.`friend_id`))))) left join `vw_conversation_last_message` `clm` on(((`clm`.`user1_id` = least(`u`.`id`,`f`.`id`)) and (`clm`.`user2_id` = greatest(`u`.`id`,`f`.`id`))))) left join `messages` `m` on((`m`.`id` = `clm`.`last_message_id`))) where (`fr`.`status` = 'accepted') */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vw_conversation_last_message`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vw_conversation_last_message`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vw_conversation_last_message` AS select least(`messages`.`sender_id`,`messages`.`receiver_id`) AS `user1_id`,greatest(`messages`.`sender_id`,`messages`.`receiver_id`) AS `user2_id`,max(`messages`.`id`) AS `last_message_id` from `messages` group by least(`messages`.`sender_id`,`messages`.`receiver_id`),greatest(`messages`.`sender_id`,`messages`.`receiver_id`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `vw_daily_report`
 --
 
@@ -587,4 +685,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-08 15:13:37
+-- Dump completed on 2026-04-08 18:55:30
