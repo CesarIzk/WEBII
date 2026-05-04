@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', async () => {
               <ul class="wc-list">
                 <li><strong>Campeón:</strong> ${c.champion ?? '—'}</li>
                 <li><strong>Subcampeón:</strong> ${c.runner_up ?? '—'}</li>
-              <li><strong>3er lugar:</strong> ${c['3rdPlace'] ?? '—'}</li>
-              <li><strong>4to lugar:</strong> ${c['4thPlace'] ?? '—'}</li>
+              <li><strong>3er lugar:</strong> ${c.third_place ?? '—'}</li>
+              <li><strong>4to lugar:</strong> ${c.fourth_place ?? '—'}</li>
               </ul>
             </div>
             <div class="wc-box">
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <ul class="wc-list">
                 <li><strong>Sede:</strong> ${c.host_country ?? '—'}</li>
                 <li><strong>Equipos:</strong> ${c.participating_teams ?? '—'}</li>
-              <li><strong>Partidos:</strong> ${c.Num_Games ?? '—'}</li>
+              <li><strong>Partidos:</strong> ${c.num_games ?? '—'}</li>
                 <li><strong>Goles:</strong> ${c.total_goals ?? '—'}</li>
               </ul>
             </div>
