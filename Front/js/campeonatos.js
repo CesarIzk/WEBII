@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <ul class="wc-list">
                 <li><strong>Sede:</strong> ${c.host_country ?? '—'}</li>
                 <li><strong>Equipos:</strong> ${c.participating_teams || '—'}</li>
-              <li><strong>Partidos:</strong> ${c.num_games ? c.num_games + ' jugados' : '—'}</li>
+              <li><strong>Partidos:</strong> ${c.num_games ? c.num_games + ' jugados' : 'Test'}</li>
                 <li><strong>Goles:</strong> ${c.total_goals || '—'}</li>
               </ul>
             </div>
